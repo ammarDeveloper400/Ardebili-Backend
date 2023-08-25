@@ -306,25 +306,22 @@
                                     <?php //if($client_data->city != null){echo ", ".$client_data->city;} ?>
                                     <?php //if($client_data->state != null){echo ", ".$client_data->state;} ?>
                                     <?php //if($client_data->zipcode != null){echo ", ".$client_data->zipcode;} ?>
-
                                 </p>
-                                    <br>
-                                    <p><b class="heading_pdf" style="width:35%">Project #:</b> <?php echo $asa->asa_project_no; ?></p>
-                                    <?php if($asa->client_project_number != ""){?>
-                                        <br />
-                                        <p><b class="heading_pdf" style="width:35%">Client Project #:</b> <?php echo $asa->client_project_number; ?></p>
-                                    <?php } ?>
-                                    <?php if($client_data->po_number != ""){?>
-                                        <br />
-                                        <p><b class="heading_pdf"  style="width:35%">PO #:</b> <?php echo $client_data->po_number; ?></p>
-                                    <?php } ?>
-
-                               
+                                <?php if($asa->client_project_number != ""){?>
+                                    <br />
+                                    <p><b class="heading_pdf" style="width:35%">Client Project #:</b> <?php echo $asa->client_project_number; ?></p>
+                                <?php } ?>
+                                <?php if($client_data->po_number != ""){?>
+                                    <br />
+                                    <p><b class="heading_pdf"  style="width:35%">PO Number:</b> <?php echo $client_data->po_number; ?></p>
+                                <?php } ?>
                             </td>
                             <td>
-                                <p><b class="heading_pdf">Date:</b> <?php echo date("d/m/Y", strtotime($client_data->start_date));?></p>
+                                <p><b class="heading_pdf">Date:</b> <?php echo date("m/d/Y", strtotime($client_data->start_date));?></p>
                                 <br />
                                 <p><b class="heading_pdf">Proposal #:</b> <?php echo $asa->pNumber; ?></p>
+                                <br>
+                                <p><b class="heading_pdf">Project #:</b> <?php echo $asa->asa_project_no; ?></p>
                                 
                             </td>
                         </tr>
@@ -369,7 +366,7 @@
                 </tr>
                 <?php } ?>
                 <tr>
-                    <td><b style="color: rgb(32, 32, 32); font-size:17px">Valid Till: &nbsp;&nbsp;<?php echo date("d/m/Y", strtotime($client_data->valid_date));?></b></td>
+                    <td><b style="color: rgb(32, 32, 32); font-size:17px">Valid Till: &nbsp;&nbsp;<?php echo date("m/d/Y", strtotime($client_data->valid_date));?></b></td>
                     <td>
                         <table>
                             <tbody>

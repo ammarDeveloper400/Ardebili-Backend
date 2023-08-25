@@ -14,8 +14,6 @@ use Dompdf\Options;
  * @author DeDevelopers
  * @copyright Copyright (c) 2019, DeDevelopers, https://dedevelopers.com
  */
-
-
 class Api extends ADMIN_Controller {
     private $guest_id;
     function __construct()
@@ -749,8 +747,7 @@ class Api extends ADMIN_Controller {
             "price" => $post->price,
             "task_time" => $post->hrs,
             "rate_type" => $post->ratetype,
-            // "markup_type" => $post->pricingmode,
-            "markup_type" => $post->pricingmode==""?0:$post->pricingmode,
+            "markup_type" => $post->pricingmode,
             "cost" => $markup,
             "tax" => $post->markupcost,
             "total" => $total_pp,
@@ -1380,7 +1377,8 @@ class Api extends ADMIN_Controller {
                                 "name" => $row->asa_project_name,
                                 "pro_number" => $row->asa_project_no,
                                 "pro_version" =>    $row->pro_version,
-                                "email" => date("F, d Y", strtotime($row->asa_request_date)),
+                                // "email" => date("F, d Y", strtotime($row->asa_request_date)),
+                                "email" => date("m/d/Y", strtotime($row->asa_request_date)),
                                 "status" => $row->completed_discipline,
                                 "completed_discipline" => (int) $row->completed_discipline,
                                 "urgency_text" => $row->asa_urgency_work==1?'Urgent':'Standard',
@@ -1549,7 +1547,7 @@ class Api extends ADMIN_Controller {
          }
          $service_text =  substr($row_serv,0,-2);
 
-         $projectNumber = "A"."00".$this->generateRandomStringCode(4);
+         $projectNumber = "P"."00".$this->generateRandomStringCode(4);
 
          $data = array(
             "pNumber" => $projectNumber,
@@ -2404,7 +2402,7 @@ class Api extends ADMIN_Controller {
     }
 
     public function get_misisng_numbers($type){
-        $quote_number =  $this->db->query("SELECT quote_count FROM asa_quote WHERE type = ".$type)->result_object();
+        $quote_number =  $this->db->query("SELECT quote_count FROM asa_quote")->result_object();
 
         if(empty($quote_number)){
             return  $missingNumbers = 1;
@@ -2604,6 +2602,7 @@ class Api extends ADMIN_Controller {
         $asa->pNumber = $asa->quote_number;
         $asa->asa_project_name = $asa->projectname;
         $asa->service_description = $asa->description;
+        $asa->client_project_number = $asa->clientprojectnumber;
         if($asa->type==1){
             $asa->asa_project_no = $asa->clientprojectnumber;
         } else {
@@ -2676,13 +2675,13 @@ class Api extends ADMIN_Controller {
         ];
         $mpdf = new \Mpdf\Mpdf($mpdfConfig);
         $mpdf->SetHTMLHeader('
-    <div style="margin-bottom:15px; display: flex; align-items:center">
-        <div class="logo" style="float:left"><img src="'.$image_url_pdf.'" alt="" style="max-width: 215px; margin-left: -13px;" /></div>
-        <div class="quote_number" style="float:left">
-            Proposal #: '.$row['asa']->pNumber.'
-        </div>
-    </div>'
-);
+                <div style="margin-bottom:15px; display: flex; align-items:center">
+                    <div class="logo" style="float:left"><img src="'.$image_url_pdf.'" alt="" style="max-width: 215px; margin-left: -13px;" /></div>
+                    <div class="quote_number" style="float:left">
+                        Proposal #: '.$row['asa']->pNumber.'
+                    </div>
+                </div>'
+            );
             $mpdf->AddPage();
             $mpdf->SetHTMLFooter('
             <div class="footer_custom" id="footer" style="margin-bottom:30px">
@@ -2770,8 +2769,15 @@ class Api extends ADMIN_Controller {
 
 
         if($type == 9){
-            $html = $this->load->view('pdf_quote', $this->data, true);
-            $final_file_name = "Proposal ".$row['asa']->quote_number." from Ardebili Engineering ".$row['asa']->projectname;
+            if($row['asa']->type == 2){
+                $html = $this->load->view('pdf', $this->data, true);
+                $final_file_name = "ASA ".$row['asa']->quote_number." from Ardebili Engineering ".$row['asa']->projectname;
+            } else {
+                $html = $this->load->view('pdf_quote', $this->data, true);
+                $final_file_name = "Proposal ".$row['asa']->quote_number." from Ardebili Engineering ".$row['asa']->projectname;
+            }
+            
+            
         } else {
             $html = $this->load->view('pdf', $this->data, true);
             $final_file_name = "ASA ".$row['asa']->pNumber." from Ardebili Engineering ".$row['asa']->asa_project_name;
@@ -2787,7 +2793,7 @@ class Api extends ADMIN_Controller {
         // UPDATE FILE NAME TO ASA
 
         // HTML content for the header
-        if($type == 9){
+        if($type == 9 && $row['asa']->type == 1){
             $headerHtml = '<header>
                 <div class="header_custom">
                 <div class="logo"><img src="'.$image_url_inner.'" alt="" /></div>
@@ -2920,8 +2926,7 @@ HTML;
         $dompdf->loadHtml($html_o);
         $dompdf->setPaper('letter', 'portrait');
 
-
-
+            // $dompdf->add_info('Title', 'Your meta title');
         $dompdf->render();
 
         // ADD FOOTER PAGES
@@ -2935,8 +2940,8 @@ HTML;
         // $canvas->page_text(140, 770, $footer, $font, 8, array(125 / 255, 125 / 255, 125 / 255));
 
         $pdfContent = $dompdf->output();
-        $dompdf->stream('output.pdf', array('Attachment' => false));
-        die;
+        // $dompdf->stream('output.pdf', array('Attachment' => false));
+        // die;
         $outputDirectory = './resources/uploads/';
         // $outputFilename = $row['asa']->pNumber.'.pdf';
 

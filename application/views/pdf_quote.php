@@ -323,24 +323,29 @@
                                     <br />
                                     <?php echo $asa->company_contact; ?>
                                 </p>
-                                <?php if($client_data->po_number != ""){?>
+                                
+                                <?php if($asa->clientprojectnumber != ""){?>
                                     <br />
-                                    <p><b class="heading_pdf" style="width:35%">PO #:</b> <?php echo $client_data->po_number; ?></p>
+                                    <p><b class="heading_pdf" style="width:35%">Client Project #:</b> <?php echo $asa->clientprojectnumber; ?></p>
                                     
                                 <?php } ?>
-                                <?php if($client_data->clientprojectnumber != ""){?>
+                                <?php if($client_data->po_number != ""){?>
                                     <br />
-                                    <p><b class="heading_pdf" style="width:35%">Client Project #:</b> <?php echo $client_data->clientprojectnumber; ?></p>
+                                    <p><b class="heading_pdf" style="width:35%">PO Number:</b> <?php echo $client_data->po_number; ?></p>
                                     
                                 <?php } ?>
 
                                
                             </td>
                             <td>
-                                <p><b class="heading_pdf">Date:</b> <?php echo date("d/m/Y", strtotime($client_data->start_date));?></p>
+                                <p><b class="heading_pdf">Date:</b> <?php echo date("m/d/Y", strtotime($client_data->start_date));?></p>
                                 <br />
                                 <p><b class="heading_pdf">Proposal #:</b> <?php echo $asa->pNumber; ?><?php echo $asa->revision_number!=0?".".$asa->revision_number:""; ?></p>
-                                
+                                <?php if($asa->projectnumber != ""){?>
+                                    <br />
+                                    <p><b class="heading_pdf">Project #:</b> <?php echo $asa->projectnumber; ?></p>
+                                    
+                                <?php } ?>
                                 
                                 
                             </td>
@@ -348,12 +353,7 @@
                         <br>
                         <tr>
                             <td colspan="2" style="font-weight:700; font-size: 15px; line-height: 23px;">
-                                Ardebili Engineering, LLC ("Engineer") hereby submits its Proposal and Professional Services Agreement ("Agree-<br>
-                                    ment") to perform the following Scope of Services and Fees for the Project. Client's signature on this Agreement<br>
-
-                                    shall confirm its agreement to a binding contract with Engineer for the following Scope of Services and Fees subject<br>
-                                    to the Terms and Conditions of this Agreement. Engineer must receive a signed Agreement before commencement<br>
-                                    of Services.
+                                Ardebili Engineering, LLC ("Engineer") hereby submits its Proposal and Professional Services Agreement ("Agreement") to perform the following Scope of Services and Fees for the Project. Client's signature on this Agreement shall confirm its agreement to a binding contract with Engineer for the following Scope of Services and Fees subject to the Terms and Conditions of this Agreement. Engineer must receive a signed Agreement before commencement of Services. 
                             </td>
                         </tr>
                         </tbody>
@@ -408,7 +408,7 @@
                     </tr>
                     <?php } ?>
                     <tr>
-                        <td><b style="color: rgb(32, 32, 32); font-size:17px">Valid Till: &nbsp;&nbsp;<?php echo date("d/m/Y", strtotime($client_data->valid_date));?></b></td>
+                        <td><b style="color: rgb(32, 32, 32); font-size:17px">Valid Till: &nbsp;&nbsp;<?php echo date("m/d/Y", strtotime($client_data->valid_date));?></b></td>
                         <td>
                             <table>
                                 <tbody>
@@ -431,8 +431,7 @@
             <div><h1 style="text-align:left; margin-top: 10px; font-size: 17px;">General Terms and Conditions:</h1></div>
             <div class="bullets_points">
                     <span>• Engineer must receive a signed agreement before it will commence work on the above-mentioned project.</span>
-                    <span>• Engineer will provide Construction Documents and calculations necessary for interdisciplinary coordination and preliminary
-                    budgeting.</span>
+                    <span>• Engineer will provide Construction Documents and calculations necessary for interdisciplinary coordination and preliminary budgeting.</span>
                     <span>• Drawings will be furnished as PDF files and specifications in Engineer standard format will be located on the drawings.</span>
                     <span>• Client is responsible for all Permit Fees and charges for coordination of prints/plots and submittals to Engineer during design/
                     bid/construction phases of the project.</span>
@@ -747,7 +746,7 @@
                 All the information on the survey shall be referenced to a Project benchmark. Unless expressly included in the Scope of
                 Services for this Agreement, the Engineer is not responsible for the location and identification of utilities. The Engineer is
                 entitled to rely on information furnished by the Client, or third parties at the Client’s direction, concerning any matter that is
-                the subject of this Section.<br>
+                the subject of this Section.<br><br>
                 The Client shall furnish services of geotechnical engineers, which may include test borings, test pits, determinations of soil
 
                 bearing values, percolation tests, evaluations of hazardous materials, seismic evaluation, ground corrosion tests and resistiv-
@@ -767,16 +766,16 @@
             such services and demonstrates that they are reasonably required by the scope of the Project. The Client shall require that
             its consultants and contractors maintain insurance, including professional liability insurance, as appropriate to the services
             or work provided.
-            <br><br>
+            <br>
             The Client shall furnish tests, inspections and reports required by law or the contract documents for the Project, such as
             structural, mechanical, and chemical tests, tests for air and water pollution, and tests for hazardous materials.
 
             The Client shall furnish all legal, insurance and accounting services, including auditing services, that may be reasonably nec-
             essary at any time for the Project to meet the Client’s needs and interests.
-            <br><br>
+            <br>
             The Client shall provide prompt written notice to the Engineer if the Client becomes aware of any fault or defect in the Proj-
             ect, including errors, omissions or inconsistencies in the Engineer’s instruments of service.
-            <br><br>
+            <br>
             The Client shall include the Engineer in all communications with the Contractor that relate to or affect the Engineer’s ser-
             vices or professional responsibilities. The Client shall promptly notify the Engineer of the substance of any direct communi-
             cations between the Client and the Contractor affecting Engineer’s services.
@@ -784,7 +783,7 @@
 
         <div><h1 style="text-align:left; margin-top: 0px; font-size: 17px;">END OF TERMS AND CONDITIONS</h1></div>
 
-        <div><h1 style="text-align:center; margin-top: 10px; font-size: 17px; text-decoration: underline;">ACCEPTANCE OF AGREEMENT</h1></div>
+        <div><h1 style="margin-top: 10px; font-size: 17px; text-decoration: underline;">ACCEPTANCE OF AGREEMENT</h1></div>
         <div class="pdf_below_data" style="margin-top: 10px;">
             THIS AGREEMENT SHALL BE DEEMED WITHDRAWN IF NOT EXECUTED AND RETURNED BY CLIENT WITHIN NINTY (90) DAYS AFTER THE DATE HEREOF. THIS AGREEMENT IS SUBJECT TO ITS TERMS AND CONDITIONS FOLLOWING THE ACCEPTANCE OF AGREEMENT.
         </div>
