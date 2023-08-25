@@ -491,7 +491,7 @@ CREATE TABLE `site_settings` (
 --
 
 INSERT INTO `site_settings` (`id`, `action_password`, `site_name`, `logo_path`, `mechanical_price_hr`, `plumbing_price_hr`, `electrical_price_hr`, `review_cost`, `standard_service_cost`, `apikey`) VALUES
-(1, 'Ardebili1', NULL, NULL, '175', '175', '175', '100', '350', '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');
+(1, 'Ardebili1', NULL, NULL, '175', '175', '175', '100', '350', '');
 
 -- --------------------------------------------------------
 
